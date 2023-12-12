@@ -1,0 +1,29 @@
+version: '3.7'
+services:
+  panforyou-dev:
+    image: golang:1.21.5
+    container_name: panforyou-dev
+    hostname: panforyou-dev
+    volumes:
+      - ..:/workspace:cached
+    command: /bin/sh -c "while :; do sleep 10; done"
+    environment:
+      POSTGRES_HOST: "db-dev"
+      POSTGRES_DATABASE: "panforyou"
+      POSTGRES_PORT: 5432
+      POSTGRES_DRIVER: "postgres"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+
+  db-dev:
+    image: postgres:16.1-bullseye
+    container_name: panforyou-dev-db
+    hostname: panforyou-dev-db
+    restart: always
+    ports: 
+      - "5432:5432"
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
