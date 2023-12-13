@@ -1,5 +1,15 @@
 
-# 1. 環境構築
+# 1. 概要
+
+このリポジトリは以下の要件に従い作成されました。
+
+1. `contentful API` からパンの情報を取得し、DBに保存する CLI
+2. 以下の要件を満たすgraphQLサーバ
+  - 1で保存したデータを一覧で取得できる
+  - id を指定して、1で保存したデータ中の任意のデータを取得できる
+
+
+# 2. 環境構築
 
 以下のコマンドもしくは、vscodeのdevcontainerでコンテナを起動させる
 
@@ -9,7 +19,7 @@ docker compose up # or docker-compose up
 ```
 
 
-# 2. DBの初期化
+# 3. DBの初期化
 
 以下のコマンドを実行してDBを初期化する
 
@@ -21,7 +31,7 @@ exit
 ```
 
 
-# 3. サーバーを起動させる
+# 4. サーバーを起動させる
 
 以下のコマンドを実行。
 その後、`http://localhost:8080/`にアクセスして正常に起動していることを確認
@@ -33,9 +43,11 @@ make test
 ```
 
 
-# 4. CLIの実行
+# 5. CLIの実行
 
 `ENTRY_ID` を指定してコマンドを実行する (`xxx` には適切な値を入力する)
+
+コマンド実行後に`Content Delivery API` から取得した情報がdatabaseに保存されます
 
 ※ 3でサーバ起動時にcliも同時にコンパイルされています
 
@@ -49,12 +61,12 @@ export CONTENTFUL_ACCESS_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ```
 
 
-# 5. クエリの実行
+# 6. クエリの実行
 
 `http://localhost:8080/` にアクセスして以下のqueryを実行
 
 
-## 5.1. CLIで保存したデータを一覧で取得
+## 6.1. CLIで保存したデータを一覧で取得
 
 ```graphql
 query findBreads {
@@ -67,7 +79,7 @@ query findBreads {
 ```
 
 
-## 5.2. d を指定してCLIで保存したデータ中の任意のデータを取得
+## 6.2. id を指定してCLIで保存したデータ中の任意のデータを取得
 
 ```graphql
 query findBread {
@@ -77,4 +89,14 @@ query findBread {
     createdAt
   }
 }
+```
+
+
+# 7. 環境破棄
+
+以下のコマンドもしくは、vscodeのdevcontainerでコンテナを停止させる
+
+```bash
+cd .devcontainer
+docker compose down # or docker-compose down
 ```
